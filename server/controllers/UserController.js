@@ -4,7 +4,10 @@ let bcrypt = require("bcrypt-as-promised");
 
 class UserController{
 	index(req,res){
-		res.render("index");
+
+		res.render("index",{
+			"errors":req.session.errors
+		});
 	}
 
 	register(req,res){
@@ -45,9 +48,12 @@ class UserController{
 	}
 
 	login(req,res){
+		let errors = [];
+
 		User.find({email:req.body.email},(err,user)=>{
 			if(err){
-				console.log(err);
+				errors.push("Failed to lookup user");
+				req.session.errors =errors;
 				res.redirect("/");
 			}else{
 				if(user[0]){
@@ -58,9 +64,15 @@ class UserController{
 					})
 					.catch((err)=>{
 						console.log("CATCH:",err);
+						errors.push(err);
+						req.session.errors =errors;
+
 						res.redirect("/");
 					});					
 				}else{
+
+
+
 					console.log("USER: "+req.body.email+" DOES NOT EXIST!!");
 					res.redirect("/");
 				}
