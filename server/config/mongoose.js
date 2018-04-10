@@ -8,6 +8,7 @@ mongoose.Promise = global.Promise;
 
 fs.readdirSync(modelPath).forEach(function(file){
     if(file.indexOf(".js") >= 0){
+    	console.log(file);
         require(modelPath+"/"+file);
     }
 })
