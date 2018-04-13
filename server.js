@@ -5,9 +5,8 @@ let session    = require("express-session");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({secret:"ahsldkajshldkajshd"}));
-app.set("views",__dirname+"/client/views");
-app.set("view engine","ejs");
+// app.use(session({secret:"ahsldkajshldkajshd"}));
+app.use(express.static(__dirname+"/client/dist"));
 
 require("./server/config/mongoose.js");
 require("./server/config/routes.js")(app);
